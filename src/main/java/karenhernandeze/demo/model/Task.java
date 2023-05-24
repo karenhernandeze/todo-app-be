@@ -1,9 +1,11 @@
 package karenhernandeze.demo.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 
 
 @Entity
@@ -14,14 +16,20 @@ public class Task {
 
     private @Id @GeneratedValue Long id;
     @Size(min = 1, max = 120)
+    @Column(nullable = false)
     private String text;
-    private String dueDate; //OPTIONAL
-    private Boolean done;
-    private String doneDate;
+    @Column(nullable = true)
+    private LocalDate dueDate; //OPTIONAL
+    @Column(nullable = false)
+    private  Boolean done;
+    @Column(nullable = true)
+    private LocalDate doneDate; 
+    @Column(nullable = false)
     private String priority;
-    private String creationDate;
+    @Column(nullable = false)
+    private LocalDate creationDate;
 
-    public Task(String text, String dueDate, Boolean done, String doneDate, String priority, String creationDate) {
+    public Task(String text, LocalDate dueDate, Boolean done, LocalDate doneDate, String priority, LocalDate creationDate) {
         this.text = text;
         this.dueDate = dueDate;
         this.done = done;
@@ -46,11 +54,11 @@ public class Task {
         this.text = text;
     }
 
-    public String getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(String dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 
@@ -62,11 +70,11 @@ public class Task {
         this.done = done;
     }
 
-    public String getDoneDate() {
+    public LocalDate getDoneDate() {
         return doneDate;
     }
 
-    public void setDoneDate(String doneDate) {
+    public void setDoneDate(LocalDate doneDate) {
         this.doneDate = doneDate;
     }
 
@@ -78,11 +86,11 @@ public class Task {
         this.priority = priority;
     }
 
-    public String getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(String creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 
