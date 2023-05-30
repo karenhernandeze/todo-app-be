@@ -8,6 +8,11 @@ import net.bytebuddy.asm.Advice.Return;
 
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Sort;
+
+import java.io.Console;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -109,5 +114,30 @@ public class TaskServiceImpl implements TaskService {
     public List<Task> getAllTasksSortedByPriorityDES() {
         return taskRepository.findAllByOrderByPriorityDesc(null);
     }
+
+    // TO - DO 
+    // @Override
+    // public long averageTime() {
+    //     List<Task> allTasks = taskRepository.findAll();
+    //     List<Task> doneTasks = taskRepository.findAll();
+    //     for (Task task : allTasks) {
+    //         if (task.getCreationDate() != null && task.getDoneDate() != null) {
+    //             doneTasks.add(task);
+    //         }
+    //     }
+    //     Duration totalDuration = Duration.ZERO;
+
+    //     for (Task task : doneTasks) {
+    //         LocalDate createdDate = task.getCreationDate();
+    //         LocalDate doneDate = task.getDoneDate();
+    //         Duration duration = Duration.between(createdDate, doneDate);
+    //         totalDuration = totalDuration.plus(duration);
+    //     }
+
+    //     // Calculate the average duration
+    //     long averageTime = totalDuration.toMillis() / doneTasks.size();
+    //     System.out.println(averageTime);
+    //     return averageTime;
+    // }
 
 }

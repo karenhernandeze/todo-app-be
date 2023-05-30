@@ -17,5 +17,5 @@ public interface TaskService {
     public List<Task> getAllTasksSortedDES();
     public List<Task> getAllTasksSortedByPriorityASC();
     public List<Task> getAllTasksSortedByPriorityDES();
-
+    // public long averageTime();
 }
