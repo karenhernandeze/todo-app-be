@@ -1,18 +1,20 @@
 package karenhernandeze.demo.service;
 
 import karenhernandeze.demo.exception.TaskNotFoundException;
+import karenhernandeze.demo.model.Filters;
 import karenhernandeze.demo.model.Task;
 import karenhernandeze.demo.repository.TaskRepository;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class TaskServiceImpl implements TaskService {
     // temporary data storage
-    List<Task> list;
+    List<Task> list = new ArrayList<>();
 
     private final TaskRepository taskRepository;
 
@@ -73,5 +75,17 @@ public class TaskServiceImpl implements TaskService {
         taskRepository.save(_task);
 
         return _task;
+    }
+
+    @Override
+    public List<Task> filterTasks(Filters f) {
+        List<Task> listFilter;
+        listFilter = taskRepository.findByDoneAndPriorityAndTextContaining(f.getDone(), f.getPriority(), f.getText());
+        return listFilter;
+    }
+
+    @Override
+    public void deleteTask(Long id) {
+        taskRepository.deleteById(id);
     }
 }

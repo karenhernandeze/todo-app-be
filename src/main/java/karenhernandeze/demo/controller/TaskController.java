@@ -1,6 +1,7 @@
 package karenhernandeze.demo.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
@@ -8,11 +9,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import karenhernandeze.demo.exception.TaskNotFoundException;
+import karenhernandeze.demo.model.Filters;
 import karenhernandeze.demo.model.Task;
 import karenhernandeze.demo.service.TaskService;
 
+@CrossOrigin(origins = {"http://localhost:8080", "http://192.168.1.189:8080"})
 @RestController
 public class TaskController {
     private final TaskService taskService;
@@ -70,4 +74,28 @@ public class TaskController {
                     HttpStatus.NOT_FOUND, "Task Not Found.", e);
         }
     }
+
+    @PostMapping("/todos/filter")
+    public ResponseEntity<List<Task>> filterTasks(@Valid @RequestBody Filters f) {
+        try {
+            List<Task> tasks = taskService.filterTasks(f);
+            return ResponseEntity.ok(tasks);
+        } catch (TaskNotFoundException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Task Not Found.", e);
+        }
+    }
+
+    @DeleteMapping("/todos/{id}")
+    public ResponseEntity<String> deleteItem(@Valid @PathVariable("id") long id) {
+        try {
+            taskService.deleteTask(id);
+            return ResponseEntity.ok("Item deleted successfully");
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Item not found");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+        }
+    }
+
 }
