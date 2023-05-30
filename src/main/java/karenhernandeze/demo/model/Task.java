@@ -4,13 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OrderBy;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 
 @Entity
 public class Task {
@@ -23,17 +18,17 @@ public class Task {
     @Column(nullable = false)
     private String text;
     @Column(nullable = true)
-    private LocalDate dueDate; //OPTIONAL
+    private LocalDateTime  dueDate; //OPTIONAL
     @Column(nullable = false)
     private  Boolean done;
     @Column(nullable = true)
-    private LocalDate doneDate; 
+    private LocalDateTime  doneDate; 
     @Column(nullable = false)
     private String priority;
     @Column(nullable = false)
-    private LocalDate creationDate;
+    private LocalDateTime  creationDate;
 
-    public Task(String text, LocalDate dueDate, Boolean done, LocalDate doneDate, String priority, LocalDate creationDate) {
+    public Task(String text, LocalDateTime  dueDate, Boolean done, LocalDateTime  doneDate, String priority, LocalDateTime  creationDate) {
         this.text = text;
         this.dueDate = dueDate;
         this.done = done;
@@ -58,11 +53,11 @@ public class Task {
         this.text = text;
     }
 
-    public LocalDate getDueDate() {
+    public LocalDateTime  getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDate dueDate) {
+    public void setDueDate(LocalDateTime  dueDate) {
         this.dueDate = dueDate;
     }
 
@@ -74,11 +69,11 @@ public class Task {
         this.done = done;
     }
 
-    public LocalDate getDoneDate() {
+    public LocalDateTime  getDoneDate() {
         return doneDate;
     }
 
-    public void setDoneDate(LocalDate doneDate) {
+    public void setDoneDate(LocalDateTime  doneDate) {
         this.doneDate = doneDate;
     }
 
@@ -90,10 +85,10 @@ public class Task {
         this.priority = priority;
     }
 
-    public LocalDate getCreationDate() {
+    public LocalDateTime  getCreationDate() {
         return creationDate;
     }
-    public void setCreationDate(LocalDate creationDate) {
+    public void setCreationDate(LocalDateTime  creationDate) {
         this.creationDate = creationDate;
     }
 

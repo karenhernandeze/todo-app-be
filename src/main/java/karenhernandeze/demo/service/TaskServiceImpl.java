@@ -4,15 +4,11 @@ import karenhernandeze.demo.exception.TaskNotFoundException;
 import karenhernandeze.demo.model.Filters;
 import karenhernandeze.demo.model.Task;
 import karenhernandeze.demo.repository.TaskRepository;
-import net.bytebuddy.asm.Advice.Return;
-
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Sort;
-
-import java.io.Console;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +17,10 @@ import java.util.Optional;
 public class TaskServiceImpl implements TaskService {
     // temporary data storage
     List<Task> list = new ArrayList<>();
+    List<Task> doneTasks = new ArrayList<>();
+    List<Task> doneTasks1 = new ArrayList<>();
+    List<Task> doneTasks2 = new ArrayList<>();
+    List<Task> doneTasks3 = new ArrayList<>();
 
     private final TaskRepository taskRepository;
 
@@ -30,7 +30,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Task> getAllTasks() {
-        return taskRepository.findAll();
+        return taskRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
     @Override
@@ -62,10 +62,12 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task markTaskDone(Task task, Long id) {
         Optional<Task> getTask = taskRepository.findById(id);
+        LocalDateTime doneDate = LocalDateTime.now();
+        LocalDateTime trimmedDate = doneDate.truncatedTo(ChronoUnit.SECONDS);
 
         Task _task = getTask.get();
         _task.setDone(true);
-        _task.setDoneDate(task.getDoneDate());
+        _task.setDoneDate(trimmedDate);
         taskRepository.save(_task);
 
         return _task;
@@ -115,29 +117,85 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findAllByOrderByPriorityDesc(null);
     }
 
-    // TO - DO 
-    // @Override
-    // public long averageTime() {
-    //     List<Task> allTasks = taskRepository.findAll();
-    //     List<Task> doneTasks = taskRepository.findAll();
-    //     for (Task task : allTasks) {
-    //         if (task.getCreationDate() != null && task.getDoneDate() != null) {
-    //             doneTasks.add(task);
-    //         }
-    //     }
-    //     Duration totalDuration = Duration.ZERO;
+    @Override
+    public Long averageTime() {
+        List<Task> allTasks = taskRepository.findAll();
+        for (Task task : allTasks) {
+            if ((task.getCreationDate() != null) && (task.getDoneDate() != null)) {
+                System.out.println("CREATION "+task.getCreationDate());
+                System.out.println("DONE "+task.getDoneDate());
+                doneTasks.add(task);
+            }
+        }
+        Duration totalDuration = Duration.ZERO;
+        for (Task task : doneTasks) {
+            LocalDateTime createdDate = task.getCreationDate();
+            LocalDateTime doneDate = task.getDoneDate();
+            Duration duration = Duration.between(createdDate, doneDate);
+            totalDuration = totalDuration.plus(duration);
+        }
+        Long averageTime = totalDuration.toMinutes() / doneTasks.size();
+        return averageTime;
+    }
 
-    //     for (Task task : doneTasks) {
-    //         LocalDate createdDate = task.getCreationDate();
-    //         LocalDate doneDate = task.getDoneDate();
-    //         Duration duration = Duration.between(createdDate, doneDate);
-    //         totalDuration = totalDuration.plus(duration);
-    //     }
+    @Override
+    public Long averageTimeLow() {
+        List<Task> allTasks = taskRepository.findAll();
+        for (Task task : allTasks) {
+            if ((task.getCreationDate() != null) && (task.getDoneDate() != null) && (task.getPriority() == "low")) {
+                System.out.println("CREATION "+task.getCreationDate());
+                System.out.println("DONE "+task.getDoneDate());
+                doneTasks1.add(task);
+            }
+        }
+        Duration totalDuration = Duration.ZERO;
+        for (Task task : doneTasks1) {
+            LocalDateTime createdDate = task.getCreationDate();
+            LocalDateTime doneDate = task.getDoneDate();
+            Duration duration = Duration.between(createdDate, doneDate);
+            totalDuration = totalDuration.plus(duration);
+        }
+        Long averageTime = totalDuration.toMinutes() / doneTasks1.size();
+        return averageTime;
+    }
 
-    //     // Calculate the average duration
-    //     long averageTime = totalDuration.toMillis() / doneTasks.size();
-    //     System.out.println(averageTime);
-    //     return averageTime;
-    // }
+    @Override
+    public Long averageTimeMedium() {
+        List<Task> allTasks = taskRepository.findAll();
+        for (Task task : allTasks) {
+            if ((task.getCreationDate() != null) && (task.getDoneDate() != null)  && (task.getPriority() == "medium")) {
+                System.out.println("CREATION "+task.getCreationDate());
+                System.out.println("DONE "+task.getDoneDate());
+                doneTasks2.add(task);
+            }
+        }
+        Duration totalDuration = Duration.ZERO;
+        for (Task task : doneTasks2) {
+            LocalDateTime createdDate = task.getCreationDate();
+            LocalDateTime doneDate = task.getDoneDate();
+            Duration duration = Duration.between(createdDate, doneDate);
+            totalDuration = totalDuration.plus(duration);
+        }
+        Long averageTime = totalDuration.toMinutes() / doneTasks2.size();
+        return averageTime;
+    }
 
+    @Override
+    public Long averageTimeHigh() {
+        List<Task> allTasks = taskRepository.findAll();
+        for (Task task : allTasks) {
+            if ((task.getCreationDate() != null) && (task.getDoneDate() != null) && (task.getPriority() == "high")) {
+                doneTasks3.add(task);
+            }
+        }
+        Duration totalDuration = Duration.ZERO;
+        for (Task task : doneTasks3) {
+            LocalDateTime createdDate = task.getCreationDate();
+            LocalDateTime doneDate = task.getDoneDate();
+            Duration duration = Duration.between(createdDate, doneDate);
+            totalDuration = totalDuration.plus(duration);
+        }
+        Long averageTime = totalDuration.toMinutes() / doneTasks3.size();
+        return averageTime;
+    }
 }

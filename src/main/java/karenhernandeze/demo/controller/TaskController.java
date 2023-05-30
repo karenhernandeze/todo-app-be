@@ -122,12 +122,28 @@ public class TaskController {
         return ResponseEntity.ok(tasks);
     }
 
-    // HAVE TO FIX MODEL TO SENT DATE WITH SECONDS AND HAVE A MORE ACCURATE TIME 
-    
-    // @GetMapping("/todos/time")
-    // public long time() {
-    //     Long info = taskService.averageTime();
-    //     return info;
-    // }
+    @GetMapping("/todos/time")
+    public Long time() {
+        Long info = taskService.averageTime();
+        return info;
+    }
+
+    @GetMapping("/todos/time-low")
+    public Long timeLowPriority() {
+        Long info = taskService.averageTimeLow();
+        return info;
+    }
+
+    @GetMapping("/todos/time-medium")
+    public Long timeMediumPriority() {
+        Long info = taskService.averageTimeMedium();
+        return info;
+    }
+
+    @GetMapping("/todos/time-high")
+    public Long timeHighPriority() {
+        Long info = taskService.averageTimeHigh();
+        return info;
+    }
 
 }
