@@ -98,4 +98,28 @@ public class TaskController {
         }
     }
 
+    @GetMapping("/todos/sortdes")
+    public ResponseEntity<List<Task>> getTasksSortedByDateDES() {
+        List<Task> tasks = taskService.getAllTasksSortedDES();
+        return ResponseEntity.ok(tasks);
+    }
+
+    @GetMapping("/todos/sortasc")
+    public ResponseEntity<List<Task>> getTasksSortedByDateASC() {
+        List<Task> tasks = taskService.getAllTasksSortedASC();
+        return ResponseEntity.ok(tasks);
+    }
+
+    @GetMapping("/todos/sort-priorityasc")
+    public ResponseEntity<List<Task>> getTasksSortedByPriorityASC() {
+        List<Task> tasks = taskService.getAllTasksSortedByPriorityASC();
+        return ResponseEntity.ok(tasks);
+    }
+
+    @GetMapping("/todos/sort-prioritydes")
+    public ResponseEntity<List<Task>> getTasksSortedByPriorityDES() {
+        List<Task> tasks = taskService.getAllTasksSortedByPriorityDES();
+        return ResponseEntity.ok(tasks);
+    }
+
 }

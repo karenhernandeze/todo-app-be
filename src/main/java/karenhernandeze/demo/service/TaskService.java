@@ -13,4 +13,9 @@ public interface TaskService {
     public Task markTaskUndone(Long id); 
     public List<Task> filterTasks(Filters f); 
     public void deleteTask(Long id);
+    public List<Task> getAllTasksSortedASC();
+    public List<Task> getAllTasksSortedDES();
+    public List<Task> getAllTasksSortedByPriorityASC();
+    public List<Task> getAllTasksSortedByPriorityDES();
+
 }

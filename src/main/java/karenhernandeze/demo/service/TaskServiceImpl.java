@@ -4,9 +4,10 @@ import karenhernandeze.demo.exception.TaskNotFoundException;
 import karenhernandeze.demo.model.Filters;
 import karenhernandeze.demo.model.Task;
 import karenhernandeze.demo.repository.TaskRepository;
+import net.bytebuddy.asm.Advice.Return;
 
 import org.springframework.stereotype.Service;
-
+import org.springframework.data.domain.Sort;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -88,4 +89,25 @@ public class TaskServiceImpl implements TaskService {
     public void deleteTask(Long id) {
         taskRepository.deleteById(id);
     }
+
+    @Override
+    public List<Task> getAllTasksSortedASC() {
+        return taskRepository.findAllByOrderByDueDateAsc();
+    }
+
+    @Override
+    public List<Task> getAllTasksSortedDES() {
+        return taskRepository.findAllByOrderByDueDateDesc();
+    }
+
+    @Override
+    public List<Task> getAllTasksSortedByPriorityASC() {
+        return taskRepository.findAllByOrderByPriorityAsc(null);
+    }
+
+    @Override
+    public List<Task> getAllTasksSortedByPriorityDES() {
+        return taskRepository.findAllByOrderByPriorityDesc(null);
+    }
+
 }
