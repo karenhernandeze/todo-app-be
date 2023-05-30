@@ -35,6 +35,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task createTask(Task task) {
+        System.out.println(task);
+        System.out.println(taskRepository.save(task));
+
         return taskRepository.save(task);
     }
 
@@ -120,10 +123,10 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Long averageTime() {
         List<Task> allTasks = taskRepository.findAll();
+        Long averageTime = 0l;
+
         for (Task task : allTasks) {
             if ((task.getCreationDate() != null) && (task.getDoneDate() != null)) {
-                System.out.println("CREATION "+task.getCreationDate());
-                System.out.println("DONE "+task.getDoneDate());
                 doneTasks.add(task);
             }
         }
@@ -134,18 +137,23 @@ public class TaskServiceImpl implements TaskService {
             Duration duration = Duration.between(createdDate, doneDate);
             totalDuration = totalDuration.plus(duration);
         }
-        Long averageTime = totalDuration.toMinutes() / doneTasks.size();
+
+        if (doneTasks.size() != 0) {
+            averageTime = totalDuration.toMinutes() / doneTasks.size();
+        }
         return averageTime;
     }
 
     @Override
     public Long averageTimeLow() {
         List<Task> allTasks = taskRepository.findAll();
+        Long averageTime = 0l;
+
         for (Task task : allTasks) {
-            if ((task.getCreationDate() != null) && (task.getDoneDate() != null) && (task.getPriority() == "low")) {
-                System.out.println("CREATION "+task.getCreationDate());
-                System.out.println("DONE "+task.getDoneDate());
-                doneTasks1.add(task);
+            if( task.getDone() == true ){
+                if (task.getPriority().compareTo("low") == 0){
+                    doneTasks1.add(task);
+                }
             }
         }
         Duration totalDuration = Duration.ZERO;
@@ -155,18 +163,22 @@ public class TaskServiceImpl implements TaskService {
             Duration duration = Duration.between(createdDate, doneDate);
             totalDuration = totalDuration.plus(duration);
         }
-        Long averageTime = totalDuration.toMinutes() / doneTasks1.size();
+        if (doneTasks1.size() != 0) {
+            averageTime = totalDuration.toMinutes() / doneTasks1.size();
+        }
         return averageTime;
     }
 
     @Override
     public Long averageTimeMedium() {
         List<Task> allTasks = taskRepository.findAll();
+        Long averageTime = 0l;
+
         for (Task task : allTasks) {
-            if ((task.getCreationDate() != null) && (task.getDoneDate() != null)  && (task.getPriority() == "medium")) {
-                System.out.println("CREATION "+task.getCreationDate());
-                System.out.println("DONE "+task.getDoneDate());
-                doneTasks2.add(task);
+            if( task.getDone() == true ){
+                if (task.getPriority().compareTo("medium") == 0){
+                    doneTasks2.add(task);
+                }
             }
         }
         Duration totalDuration = Duration.ZERO;
@@ -176,16 +188,22 @@ public class TaskServiceImpl implements TaskService {
             Duration duration = Duration.between(createdDate, doneDate);
             totalDuration = totalDuration.plus(duration);
         }
-        Long averageTime = totalDuration.toMinutes() / doneTasks2.size();
+        if (doneTasks2.size() != 0) {
+            averageTime = totalDuration.toMinutes() / doneTasks2.size();
+        }
         return averageTime;
     }
 
     @Override
     public Long averageTimeHigh() {
         List<Task> allTasks = taskRepository.findAll();
+        Long averageTime = 0l;
+        
         for (Task task : allTasks) {
-            if ((task.getCreationDate() != null) && (task.getDoneDate() != null) && (task.getPriority() == "high")) {
-                doneTasks3.add(task);
+            if( task.getDone() == true ){
+                if (task.getPriority().compareTo("high") == 0){
+                    doneTasks3.add(task);
+                }
             }
         }
         Duration totalDuration = Duration.ZERO;
@@ -195,7 +213,9 @@ public class TaskServiceImpl implements TaskService {
             Duration duration = Duration.between(createdDate, doneDate);
             totalDuration = totalDuration.plus(duration);
         }
-        Long averageTime = totalDuration.toMinutes() / doneTasks3.size();
+        if (doneTasks3.size() != 0) {
+            averageTime = totalDuration.toMinutes() / doneTasks3.size();
+        }
         return averageTime;
     }
 }

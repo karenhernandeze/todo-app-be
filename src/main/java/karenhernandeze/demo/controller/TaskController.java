@@ -39,6 +39,8 @@ public class TaskController {
     @PostMapping("/todos")
     public ResponseEntity<Task> createTask(@Valid @RequestBody Task task) {
         Task createdTask = taskService.createTask(task);
+        System.out.println(createdTask);
+        System.out.println(task);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdTask);
     }
 
